@@ -17,7 +17,6 @@ class App extends Component {
             <NavBar />
             <Switch>
               <Route exact path='/' component={Homepage} />
-
               <Route path='/main' component={viewTrades} />
             </Switch>
           </div>
