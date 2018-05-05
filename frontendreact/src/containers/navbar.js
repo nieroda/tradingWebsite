@@ -20,15 +20,31 @@ class NavBar extends Component {
               <img src="https://steamuserimages-a.akamaihd.net/ugc/886382257782672290/D8AB973E4A25B93DB4451DDE07176D599BE5953E/" alt="Home" />
             </Link>
           </div>
-
-            <ul className="nav navbar-nav navbar-right">
-              <li>
-                <Link to="/signup">Sign Up</Link>
-              </li>
-              <li>
-                <Link to="/signin">Log In</Link>
-              </li>
-            </ul>
+            {isAuthenticated ? (
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <Link to="/alltrades">All Trades</Link>
+                </li>
+                <li>
+                  <Link to="/mytrades">My Trades</Link>
+                </li>
+                <li>
+                  <Link to="/newtrade">New Trade</Link>
+                </li>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+              </ul>
+            ): (
+              <ul className="nav navbar-nav navbar-right">
+                <li>
+                  <Link to="/signup">Sign Up</Link>
+                </li>
+                <li>
+                  <Link to="/signin">Log In</Link>
+                </li>
+              </ul>
+            )}
         </div>
       </nav>
     )

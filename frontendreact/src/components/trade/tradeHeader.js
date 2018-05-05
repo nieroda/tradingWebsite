@@ -11,4 +11,5 @@ const TradeHeader = ({ name, time = 0 }) => (
   </div>
 )
 
+
 export default TradeHeader
