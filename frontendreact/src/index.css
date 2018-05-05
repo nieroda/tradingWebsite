@@ -1,0 +1,53 @@
+body {
+  background-color: #e6ecf0
+}
+
+.navbar {
+  margin-bottom: 1rem;
+  background-color: 'black'
+}
+
+.navbar a {
+  font-weight: bold;
+  color: white;
+}
+
+.navbar a:hover {
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.navbar-brand > img {
+  display: inline-block;
+  width: 20px;
+  border-radius: 2px;
+  margin-bottom: 2px;
+  margin-right: 5px;
+}
+
+ul.nav.navbar-nav li {
+  margin: 0 0.5rem;
+}
+
+.onboarding > .navbar {
+  background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgba(134,59,18,1) 67%, rgba(144,63,17,1) 99%, rgba(162,71,14,1) 100%, rgba(191,84,10,1) 100%, rgba(255,113,0,0.9766281512605042) 100%, rgba(0,212,255,1) 100%);
+}
+
+.outpostHome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  position: absolute;
+  background-position: center center;
+  background-image: url("https://steamuserimages-a.akamaihd.net/ugc/550895166389677215/4E48C2FEA428506DE03D5C76BB0F4F57891EFD4F/");
+  color: #fff;
+  text-shadow: 0 0 8px #66757f;
+}
