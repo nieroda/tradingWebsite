@@ -6,6 +6,7 @@ import NavBar from './navbar.js'
 import Homepage from '../components/Homepage'
 import viewTrades from '../components/viewTrades'
 import newTrade from '../components/newTrade'
+import myTrades from '../components/myTrades'
 
 const store = configureStore()
 
@@ -20,6 +21,7 @@ class App extends Component {
               <Route exact path='/' component={Homepage} />
               <Route exact path='/main' component={viewTrades} />
               <Route exact path='/newtrade' component={newTrade} />
+              <Route exact path='/mytrades' component={myTrades} />
             </Switch>
           </div>
         </Router>

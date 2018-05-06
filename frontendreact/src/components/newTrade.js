@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Trade from '../containers/Trade'
-import TradeBox from './trade/tradeBox'
 import SmartTradeBox from './trade/smartTradeBox'
 import Item from './trade/Item'
 import { apiCall } from '../services/api'
@@ -19,17 +17,30 @@ class NewTrade extends Component {
   }
 
   componentWillMount() {
+
+    const cachedHits = localStorage.getItem("ITEMZ");
+    if (cachedHits) {
+      this.setState({ items: JSON.parse(cachedHits), loading: false });
+  }
+
+
+
     const s64id = '76561197966756586'
-    apiCall('get', `/backpack/${s64id}`).then(
-      items => this.setState({ items, loading: false })
-    ).catch(fuck => console.log(fuck))
+    //apiCall('get', `/backpack/${s64id}`).then(
+    //  items => {
+    //    this.setState({ loading: false })
+        //this.setState({ items, loading: false })
+  //      this.onSetResult(items)
+  //    }
+  //  ).catch(fuck => console.log(fuck))
+  }
 
-
+  onSetResult = items => {
+    localStorage.setItem("ITEMZ", JSON.stringify(items));
+    this.setState({items})
   }
 
   searchValueChange = ({ target: { value }}) => {
-    console.log(value)
-    console.log('called')
     this.setState({ searchValue: value })
     const newState = this.state.items.map((i, idx) => {
       return i.marketHashName.toLowerCase().includes(value) ? {
@@ -50,6 +61,7 @@ class NewTrade extends Component {
   }
 
   onSelect = (item) => {
+    console.log(item)
     if (this.state.selected > 7) return;
     if (item.selected === true) return;
     const newState = this.state.items.map(c => {
@@ -147,15 +159,17 @@ class NewTrade extends Component {
 
           <br />
 
-          <div className="tradeAccept">
-            <textarea value={this.state.value} onChange={this.handleChange} rows="4" cols="83" className="inputTradeText">
-              This IS SO TEMPORARY
-            </textarea>
-            <div className="tradeAcceptBottom">
-              <h3>{this.state.value.length}/200</h3>
-              <button className='tradeButton'>
-                TRADE!
-              </button>
+          <div className="tradeBox">
+            <div className="tradeAccept">
+              <textarea value={this.state.value} onChange={this.handleChange} rows="4" cols="83" className="inputTradeText">
+                This IS SO TEMPORARY
+              </textarea>
+              <div className="tradeAcceptBottom">
+                <h3>{this.state.value.length}/200</h3>
+                <button className='tradeButton'>
+                  TRADE!
+                </button>
+              </div>
             </div>
           </div>
           <br />
