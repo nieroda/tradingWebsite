@@ -1,5 +1,7 @@
 const express = require('express')
 
+const { getTF2Item } = require('../api/app')
+
 const Router = express()
 
 
@@ -12,6 +14,9 @@ Router.route('/')
     //.post()
     //.put()
     //.delete()
+
+Router.route('/backpack/:steam64id')
+  .get(getTF2Item)
 
 //Router.route('/getItems/:user')
   //.get()

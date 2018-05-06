@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import NavBar from './navbar.js'
 import Homepage from '../components/Homepage'
 import viewTrades from '../components/viewTrades'
+import newTrade from '../components/newTrade'
 
 const store = configureStore()
 
@@ -17,7 +18,8 @@ class App extends Component {
             <NavBar />
             <Switch>
               <Route exact path='/' component={Homepage} />
-              <Route path='/main' component={viewTrades} />
+              <Route exact path='/main' component={viewTrades} />
+              <Route exact path='/newtrade' component={newTrade} />
             </Switch>
           </div>
         </Router>

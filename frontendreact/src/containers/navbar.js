@@ -23,7 +23,7 @@ class NavBar extends Component {
             {isAuthenticated ? (
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <Link to="/alltrades">All Trades</Link>
+                  <Link to="/main">All Trades</Link>
                 </li>
                 <li>
                   <Link to="/mytrades">My Trades</Link>

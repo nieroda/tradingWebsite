@@ -1,11 +1,13 @@
 const axios = require('axios');
 
 //will need to have hundreds of proxies... $$$
-exports.getTF2Item = async steam64id => {
+exports.getTF2Item = async (req, res, next) => {
   try {
+    console.log('called')
+    let steam64id = req.params.steam64id
     let { data: { rgInventory, rgDescriptions } } = await axios.get(`https://steamcommunity.com/profiles/${steam64id}/inventory/json/440/2`)
     let response = []
-    Object.keys(rgInventory).forEach(key => {
+    Object.keys(rgInventory).forEach((key, idx) => {
   			let temp = rgInventory[key];
   			let item = rgDescriptions[`${temp.classid}_${temp.instanceid}`];
 
@@ -23,6 +25,8 @@ exports.getTF2Item = async steam64id => {
   				type: null,
   				exterior: null,
   				quality: null,
+          selected: false,
+          idx
   			};
 
   			item.tags.forEach(tag => {
@@ -42,9 +46,9 @@ exports.getTF2Item = async steam64id => {
 
   			response.push(data)
   		});
-      return response
+      res.status(200).json(response)
   } catch (e) {
-    return []
+    res.status(429).json({ error: e })
     //429
   }
 }
