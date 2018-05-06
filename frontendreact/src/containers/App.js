@@ -7,6 +7,7 @@ import Homepage from '../components/Homepage'
 import viewTrades from '../components/viewTrades'
 import newTrade from '../components/newTrade'
 import myTrades from '../components/myTrades'
+import SignIn from '../components/signIn'
 
 const store = configureStore()
 
@@ -22,6 +23,7 @@ class App extends Component {
               <Route exact path='/main' component={viewTrades} />
               <Route exact path='/newtrade' component={newTrade} />
               <Route exact path='/mytrades' component={myTrades} />
+              <Route exact path='/signIn'   component={() => window.location = 'http://localhost:1337/auth/steam'} />
             </Switch>
           </div>
         </Router>

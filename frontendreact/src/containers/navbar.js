@@ -11,7 +11,7 @@ class NavBar extends Component {
   }
 
   render() {
-    let isAuthenticated = true
+    let isAuthenticated = false
     return (
       <nav className="navbar navbar-expand">
         <div className="container-fluid">

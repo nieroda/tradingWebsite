@@ -11,11 +11,22 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
+    "connect-firebase": "0.0.9",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "install": "^0.11.0",
+    "jwt-simple": "^0.5.1",
     "method-override": "^2.3.10",
     "mongoose": "^5.0.16",
     "nodemon": "^1.17.3",
-    "redis": "^2.8.0"
+    "npm": "^6.0.0",
+    "passport": "^0.4.0",
+    "passport-openid": "^0.4.0",
+    "passport-steam": "^1.0.10",
+    "redis": "^2.8.0",
+    "steam-login": "^0.1.7"
   }
 }
