@@ -328,3 +328,47 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgb
   border: 3px solid #778899;
   opacity: .9;
 }
+
+.inputTradeText {
+  background-color: #A9A9A9;
+}
+
+.tradeAccept {
+  display: inline-block;
+  background-color: #A9A9A9;
+  padding: 10px;
+}
+
+.tradeAcceptBottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 5px 0 5px;
+}
+
+.tradeButton {
+  display: inline-block;
+  border-radius: 5px;
+}
+
+.tradeSelector {
+  display: inline-block;
+  padding: 5px 15px 0 15px;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.inputBoxTrade {
+  width: 150px;
+}
+
+.flx1 {
+  flex: 1;
+}
+
+.restrictBtn {
+  margin: 10px;
+}

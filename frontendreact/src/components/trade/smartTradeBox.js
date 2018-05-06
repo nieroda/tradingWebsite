@@ -6,12 +6,11 @@ const SmartTradeBox = ({
   toHave,
   onEvict
 }) => {
-  console.log(onEvict)
   const wantItems = toWant.map((i, idx) => (
     <Item
       marketHashName={i.marketHashName}
       onSelect={null}
-      onEvict={() => onEvict(i)}
+      onEvict={() => onEvict(i.idx)}
       tradable={i.tradable}
       category={i.category}
       image={i.image}

@@ -26,6 +26,7 @@ exports.getTF2Item = async (req, res, next) => {
   				exterior: null,
   				quality: null,
           selected: false,
+          filtered: false,
           idx
   			};
 

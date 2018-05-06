@@ -7,7 +7,7 @@ import TradeFooter from '../components/trade/tradeFooter'
 const Trade = () => (
   <div className="tradeContainer">
     <TradeHeader
-      name={"Nieroda"}
+      name={"FooBar"}
       time={"10"}
     />
     <TradeBox />
