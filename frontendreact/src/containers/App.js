@@ -7,13 +7,12 @@ import Homepage from '../components/Homepage'
 import viewTrades from '../components/viewTrades'
 import newTrade from '../components/newTrade'
 import myTrades from '../components/myTrades'
-import SignIn from '../components/signIn'
 import SignInComplete from '../components/signincomplete'
 import jwtDecode from 'jwt-decode'
 
 import { setAuthorizationToken, setCurrentUser } from '../store/actions/auth'
 
-const store = configureStore()
+export const store = configureStore()
 
 
 if (localStorage.jwtToken) {
@@ -25,6 +24,10 @@ if (localStorage.jwtToken) {
   }
 }
 
+//not sure why i cant dispatchwithout this...
+export function hotFix(newState) {
+  store.dispatch(newState)
+}
 
 
 class App extends Component {
@@ -49,5 +52,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;

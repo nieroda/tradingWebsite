@@ -1,5 +1,6 @@
 import { SET_CURRENT_USER } from "../actionTypes"
-import { apiCall, setTokenHeader } from "../../services/api"
+import { /*apiCall,*/ setTokenHeader } from "../../services/api"
+import { hotFix } from '../../containers/App'
 
 
 export function setCurrentUser(user) {
@@ -15,9 +16,13 @@ export function setAuthorizationToken(token) {
 }
 
 export function logout() {
-  return dispatch => {
-    localStorage.clear()
-    setAuthorizationToken(false)
-    dispatch(setCurrentUser({}))
-  }
+  console.log('called')
+  localStorage.clear()
+  setTokenHeader(false)
+  //dispatch(setCurrentUser({}))
+  hotFix({
+    type: SET_CURRENT_USER,
+    user: {}
+  })
+  /* WTF (re: above) */
 }

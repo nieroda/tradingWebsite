@@ -21,7 +21,7 @@ class MyTrades extends Component {
           <div className="centerNow">
             <div className="content">
               <div className="card">
-                <div className="firstinfo"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fc/fc4aeb854b209f34718fb2af6be0a7168a241d84_medium.jpg"/>
+                <div className="firstinfo"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fc/fc4aeb854b209f34718fb2af6be0a7168a241d84_medium.jpg" alt="photoProfile"/>
                   <div className="profileinfo">
                     <h1>Joey / Steam Name</h1>
                     <h3>9,444 Trades</h3>

@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-//import { connect } from 'react-redux'
-//import { logout } from '../store/actions/auth'
+import { connect } from 'react-redux'
+import { logout } from '../store/actions/auth'
 
 class NavBar extends Component {
 
   logout = e => {
+    console.log('called logout')
     e.preventDefault()
-  //  this.props.logout()
+    logout()
   }
 
   render() {
-    let isAuthenticated = false
     return (
       <nav className="navbar navbar-expand">
         <div className="container-fluid">
@@ -20,7 +20,7 @@ class NavBar extends Component {
               <img src="https://steamuserimages-a.akamaihd.net/ugc/886382257782672290/D8AB973E4A25B93DB4451DDE07176D599BE5953E/" alt="Home" />
             </Link>
           </div>
-            {isAuthenticated ? (
+            {this.props.isAuthenticated ? (
               <ul className="nav navbar-nav navbar-right">
                 <li>
                   <Link to="/main">All Trades</Link>
@@ -34,14 +34,17 @@ class NavBar extends Component {
                 <li>
                   <Link to="/">Home</Link>
                 </li>
+                <li
+                  className="fixLogout"
+                  onClick={this.logout}
+                  >
+                  <a>Logout</a>
+                </li>
               </ul>
             ): (
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <Link to="/signup">Sign Up</Link>
-                </li>
-                <li>
-                  <Link to="/signin">Log In</Link>
+                  <Link to="/signin">Sign Up / Log In</Link>
                 </li>
               </ul>
             )}
@@ -50,12 +53,13 @@ class NavBar extends Component {
     )
   }
 }
-/*
+
 function mapStateToProps(state) {
   return {
-    currentUser: state.currentUser
+    isAuthenticated: state.userReducer.isAuthenticated,
+    currentUser: state.userReducer.user
   }
 }
-*/
-//export default connect(mapStateToProps, { logout })(NavBar)
-export default NavBar;
+
+export default connect(mapStateToProps, { logout })(NavBar)
+//export default NavBar;

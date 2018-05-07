@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import SmartTradeBox from './trade/smartTradeBox'
 import Item from './trade/Item'
-import { apiCall } from '../services/api'
+//import { apiCall } from '../services/api'
 
 
 
@@ -25,7 +25,7 @@ class NewTrade extends Component {
 
 
 
-    const s64id = '76561197966756586'
+    //const s64id = '76561197966756586'
     //apiCall('get', `/backpack/${s64id}`).then(
     //  items => {
     //    this.setState({ loading: false })
@@ -61,7 +61,6 @@ class NewTrade extends Component {
   }
 
   onSelect = (item) => {
-    console.log(item)
     if (this.state.selected > 7) return;
     if (item.selected === true) return;
     const newState = this.state.items.map(c => {

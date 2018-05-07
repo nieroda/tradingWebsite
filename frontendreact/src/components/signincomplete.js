@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import cookie from 'react-cookies'
 import { connect } from 'react-redux'
 import { setCurrentUser, setAuthorizationToken } from '../store/actions/auth'
+import jwtDecode from 'jwt-decode'
+import { hotFix } from '../containers/App'
 
 //hoc
 
@@ -10,9 +12,12 @@ class SignInComplete extends Component {
     let token = cookie.load('token')
     localStorage.setItem("jwtToken", token)
     setAuthorizationToken(token)
-    //decode token and set user  :-)
-    //setCurrentUser(user)
-    //todo /
+    //setCurrentUser(jwtDecode(localStorage.jwtToken))
+    let user = jwtDecode(localStorage.jwtToken)
+    hotFix({
+      type: "SET_CURRENT_USER",
+      user
+    })
     this.props.history.push('/mytrades')
   }
 
