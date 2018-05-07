@@ -23,25 +23,26 @@ passport.use(new steamStrategy({
     realm: 'http://localhost:1337/',
     apiKey: '457CFC04D902AE384D6CA05904A1C362'
   },
-  function(identifier, profile, done) {
-    process.nextTick(function () {
+  (identifier, profile, done) => {
+    process.nextTick(
+      () => {
       profile.identifier = identifier;
       return done(null, profile);
     });
   }
 ));
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
 app.get('/auth/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
-  (req, res) => {});
+  () => {});
 
 app.get('/auth/return/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
@@ -62,20 +63,20 @@ app.get('/auth/return/steam',
         })
         //console.log(newUs)
         let { _id } = newUser
-        let token = jwt.sign({ _id, steamid }, "SHITTYSECRETKEY");
+        let token = jwt.sign({ _id, steamid, displayName, profileurl, avatarmedium, tradesOpen: 0 }, "SHITTYSECRETKEY");
         console.log(token)
         res.cookie('token', token);
         //sendToken(token, res)
       } else {
-        let { _id, steam64ID } = result[0]
-        let token = jwt.sign({ _id, steamid }, "SHITTYSECRETKEY")
+        let { _id, steam64ID, displayName, tradesOpen, avatarmedium } = result[0]
+        let token = jwt.sign({ _id, steamid, displayName, profileurl, tradesOpen, avatarmedium }, "SHITTYSECRETKEY")
         res.cookie('token', token);
 
       }
 
       res.redirect('http://localhost:3000/finishedSignin');
     } catch (e) {
-      //
+      //...
       console.log(e)
       res.redirect('http://localhost:3000/finishedSignin');
     }
@@ -84,4 +85,4 @@ app.get('/auth/return/steam',
 );
 
 var port = process.env.PORT || 1337;
-app.listen(port, function(){ console.log("Listening on port " + port)})
+app.listen(port, () => console.log(`Listening on port ${port}`))
