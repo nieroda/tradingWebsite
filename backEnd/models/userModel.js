@@ -2,22 +2,34 @@ const mongoose = require('mongoose')
 
 
 let userModel = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
   time: {
     type: Date,
     default: Date.now
   },
-  steam: Object,
-  tradesOpen: Number,
-  profileVisits: Number,
+  displayName: {
+    type: String,
+    required: true
+  },
+  profileurl: {
+    type: String,
+    required: true
+  },
+  avatarmedium: {
+    type: String,
+    required: true
+  },
+  steam64ID: {
+    type: String,
+    required: true
+  },
+  tradesOpen: {
+    type: Number,
+    default: 0
+  },
+  profileVisits: {
+    type: Number,
+    default: 0
+  },
   trades: [
     {
       type: mongoose.Schema.Types.ObjectId,

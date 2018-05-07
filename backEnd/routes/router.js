@@ -1,13 +1,8 @@
 const express = require('express')
-
 const { getTF2Item } = require('../api/app')
 
 const Router = express()
 
-
-const exampleFunction = (req, res) => {
-  res.json('{error:true}')
-}
 
 Router.route('/')
     .get(exampleFunction)

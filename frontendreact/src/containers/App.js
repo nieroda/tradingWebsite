@@ -8,10 +8,27 @@ import viewTrades from '../components/viewTrades'
 import newTrade from '../components/newTrade'
 import myTrades from '../components/myTrades'
 import SignIn from '../components/signIn'
+import SignInComplete from '../components/signincomplete'
+import jwtDecode from 'jwt-decode'
+
+import { setAuthorizationToken, setCurrentUser } from '../store/actions/auth'
 
 const store = configureStore()
 
+
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken)
+  try {
+    store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)))
+  } catch (e) {
+    store.dispatch(setCurrentUser({}))
+  }
+}
+
+
+
 class App extends Component {
+
   render() {
     return (
       <Provider store={store}>
@@ -24,6 +41,7 @@ class App extends Component {
               <Route exact path='/newtrade' component={newTrade} />
               <Route exact path='/mytrades' component={myTrades} />
               <Route exact path='/signIn'   component={() => window.location = 'http://localhost:1337/auth/steam'} />
+              <Route exact path='/finishedSignin' component={SignInComplete} />
             </Switch>
           </div>
         </Router>

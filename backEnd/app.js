@@ -1,22 +1,35 @@
-const express         = require('express')
-const bodyParser      = require('body-parser')
-const methodOverride  = require('method-override')
-const redis           = require('redis')
-const myRoutes        = require('./routes/router')
-const passport        = require('passport')
-const session         = require('express-session')
-const app             = express();
+var express = require('express');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var mongoose = require('mongoose');
+var jwt = require('jsonwebtoken');
+//var config = require('./config/config');
+var steamStrategy = require('passport-steam').Strategy;
+var passport = require('passport');
+var userModel   = require('./models/userModel');
+var session = require('express-session')
+var app = express();
 
-
-
-//this will throw an error if you dont have a local instance of redis running
-//let client = redis.createClient();
-//client.on('connect', () => { console.log('connected to redis') })
-
+app.use(express.static('./public'))
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(methodOverride('_method'));
-app.use(express.static('public'));
+app.use(cookieParser());
+app.use(passport.initialize());
+mongoose.connect(`mongodb://nkamm:boson@ds014658.mlab.com:14658/testlab`);
+
+
+passport.use(new steamStrategy({
+    returnURL: 'http://localhost:1337/auth/return/steam',
+    realm: 'http://localhost:1337/',
+    apiKey: '457CFC04D902AE384D6CA05904A1C362'
+  },
+  function(identifier, profile, done) {
+    process.nextTick(function () {
+      profile.identifier = identifier;
+      return done(null, profile);
+    });
+  }
+));
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -26,64 +39,49 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-passport.use(new SteamStrategy({
-    returnURL: 'http://localhost:3000/auth/steam/return',
-    realm: 'http://localhost:3000/',
-    apiKey: 'FEEF046EC5DDA03961323E1EA9F10C33'
-  },
-  function(identifier, profile, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function () {
+app.get('/auth/steam',
+  passport.authenticate('steam', { failureRedirect: '/' }),
+  (req, res) => {});
 
-      // To keep the example simple, the user's Steam profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Steam account with a user record in your database,
-      // and return that user instead.
-      profile.identifier = identifier;
-      return done(null, profile);
-    });
+app.get('/auth/return/steam',
+  passport.authenticate('steam', { failureRedirect: '/' }),
+  async (req, res) => {
+    try {
+      let { displayName } = req.user
+      let { steamid, profileurl, avatarmedium } = req.user._json
+      //await userModel.remove({})
+      let result = await userModel.find({ steam64ID: steamid })
+      console.log(result)
+      if (result.length === 0) {
+        //no user is registered
+        let newUser = await userModel.create({
+          displayName,
+          profileurl,
+          avatarmedium,
+          steam64ID: steamid,
+        })
+        //console.log(newUs)
+        let { _id } = newUser
+        let token = jwt.sign({ _id, steamid }, "SHITTYSECRETKEY");
+        console.log(token)
+        res.cookie('token', token);
+        //sendToken(token, res)
+      } else {
+        let { _id, steam64ID } = result[0]
+        let token = jwt.sign({ _id, steamid }, "SHITTYSECRETKEY")
+        res.cookie('token', token);
+
+      }
+
+      res.redirect('http://localhost:3000/finishedSignin');
+    } catch (e) {
+      //
+      console.log(e)
+      res.redirect('http://localhost:3000/finishedSignin');
+    }
+
   }
-));
+);
 
-app.use(session({
-    secret: 'your secret',
-    name: 'name of session id',
-    resave: true,
-    saveUninitialized: true}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.get('/', function(req, res){
-  res.render('index', { user: req.user });
-});
-
-app.get('/account', ensureAuthenticated, function(req, res){
-  res.render('account', { user: req.user });
-});
-
-app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
-});
-
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/');
-}
-//app.use('/', myRoutes)
-//app.use('/', checker.isLoggedIn / * auth middleware */ , myRoutes);
-
-
-
-//FEEF046EC5DDA03961323E1EA9F10C33&format=jsonw
-
-
-
-
-const port = process.env.PORT || 3001;
-const ip = process.env.IP || '192.168.1.1';
-
-app.listen(port, () => {
-    console.log(`App is running on port ${port}`);
-})
+var port = process.env.PORT || 1337;
+app.listen(port, function(){ console.log("Listening on port " + port)})
