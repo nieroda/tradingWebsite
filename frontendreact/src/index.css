@@ -504,3 +504,25 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgb
   font-weight: bold;
   color: #fff;
 }
+
+.tradeNumberSelector {
+  padding-top: 20px;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.paddNum {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.paddNum:hover {
+  color: gray;
+}
+
+.selectedNumber {
+  color: black;
+}

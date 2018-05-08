@@ -10,6 +10,8 @@ var userModel   = require('./models/userModel');
 var session = require('express-session')
 var app = express();
 
+const { getTF2Item } = require('./api/app')
+
 app.use(express.static('./public'))
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -83,6 +85,8 @@ app.get('/auth/return/steam',
 
   }
 );
+
+app.get('/inventory/:steam64id', getTF2Item)
 
 var port = process.env.PORT || 1337;
 app.listen(port, () => console.log(`Listening on port ${port}`))

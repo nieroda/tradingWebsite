@@ -6,7 +6,6 @@ import { logout } from '../store/actions/auth'
 class NavBar extends Component {
 
   logout = e => {
-    console.log('called logout')
     e.preventDefault()
     logout()
   }
@@ -30,9 +29,6 @@ class NavBar extends Component {
                 </li>
                 <li>
                   <Link to="/newtrade">New Trade</Link>
-                </li>
-                <li>
-                  <Link to="/">Home</Link>
                 </li>
                 <li
                   className="fixLogout"

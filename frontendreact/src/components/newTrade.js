@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import SmartTradeBox from './trade/smartTradeBox'
 import Item from './trade/Item'
-//import { apiCall } from '../services/api'
+import { apiCall } from '../services/api'
 
 
 
@@ -21,18 +21,18 @@ class NewTrade extends Component {
     const cachedHits = localStorage.getItem("ITEMZ");
     if (cachedHits) {
       this.setState({ items: JSON.parse(cachedHits), loading: false });
-  }
+    }
 
 
 
-    //const s64id = '76561197966756586'
-    //apiCall('get', `/backpack/${s64id}`).then(
-    //  items => {
-    //    this.setState({ loading: false })
+    const s64id = '76561197966756586'
+    apiCall('get', `/inventory/${s64id}`).then(
+      items => {
+        this.setState({ loading: false })
         //this.setState({ items, loading: false })
-  //      this.onSetResult(items)
-  //    }
-  //  ).catch(fuck => console.log(fuck))
+        this.onSetResult(items)
+      }
+    ).catch(fuck => console.log(fuck))
   }
 
   onSetResult = items => {

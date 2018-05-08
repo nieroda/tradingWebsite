@@ -1,10 +1,12 @@
-const axios = require('axios');
+const axios = require('axios')
+const fs    = require('fs')
+
 
 //will need to have hundreds of proxies... $$$
 exports.getTF2Item = async (req, res, next) => {
   try {
     console.log('called')
-    let steam64id = req.params.steam64id
+    let { steam64id } = req.params
     let { data: { rgInventory, rgDescriptions } } = await axios.get(`https://steamcommunity.com/profiles/${steam64id}/inventory/json/440/2`)
     let response = []
     Object.keys(rgInventory).forEach((key, idx) => {
@@ -53,3 +55,26 @@ exports.getTF2Item = async (req, res, next) => {
     //429
   }
 }
+
+const getItems = async () => {
+  let allTF2Items = []
+  let { data: { result: { items } } } = await axios.get(`http://api.steampowered.com/IEconItems_440/GetSchemaItems/v0001/?key=457CFC04D902AE384D6CA05904A1C362&language=en`)
+
+  items.forEach(item => {
+    let { item_name, image_url, craft_class, used_by_classes } = item
+    allTF2Items.push({
+      item_name,
+      image_url,
+      craft_class,
+      used_by_classes: used_by_classes || []
+    })
+  })
+
+  allTF2Items.forEach(item => {
+    console.log(item)
+    console.log(',')
+  })
+}
+//  console.log(allTF2Items)}
+
+getItems()

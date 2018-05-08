@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Trade from '../containers/Trade'
 import { connect } from 'react-redux'
+import TradeBox from './tradeBox'
 
 
 class MyTrades extends Component {
@@ -16,6 +17,10 @@ class MyTrades extends Component {
   }
 
   render() {
+    let trades = []
+    for (let i = 0; i < 55; i++) {
+      trades.push(<Trade />)
+    }
 
     let { avatarmedium, displayName, tradesOpen } = this.props
     console.log(avatarmedium)
@@ -37,10 +42,10 @@ class MyTrades extends Component {
             </div>
           </div>
 
-          <Trade />
-          <Trade />
-          <Trade />
-          <Trade />
+          <TradeBox
+            trades={trades}
+          />
+
 
         </div>
         <div className="col-md-2" />
