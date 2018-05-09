@@ -3,9 +3,13 @@ const express = require('express')
 
 const {
   getTF2Item,
-  getAllTF2Items
+  getAllTF2Items,
+  getUsersTrades
 } = require('../api/app')
 
+
+Router.route("/usersTrades/:steam64id")
+        .get(getUsersTrades)
 
 Router.route("/inventory/:steam64id")
         .get(getTF2Item)

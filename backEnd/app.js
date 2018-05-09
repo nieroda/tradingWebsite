@@ -14,6 +14,8 @@ const express          = require('express'),
 
 const { loginRequired, userAuth } = require("./middleware/auth")
 
+const { testEndpoint } = require('./api/app')
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());

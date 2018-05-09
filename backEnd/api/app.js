@@ -7,33 +7,78 @@ const tradeModel = require('../models/tradeModel')
 const AsyncLock = require('async-lock');
 const Lock      = new AsyncLock()
 
+const oh = console.log
 
 exports.getAllTF2Items = (req, res) => {
   res.status(200).json(data)
 }
 
-exports.newTrade = (req, res) => {
+exports.getUsersTrades = async (req, res) => {
+
+  //const token = req.headers.authorization.split(" ")[1]
+
+  try {
+    //let { _id } = jwt.verify(token, 'SHITTYSECRETKEY');
+
+    let user = await userModel.findOne({ steam64ID: req.params.steam64id }).populate('trades')
+    res.status(200).json(user)
+  } catch(well) {
+    oh(well)
+    return next({
+      status:404,
+      error: well
+    })
+  }
+
+}
+
+exports.newTrade = (req, res, next) => {
+  //We need to get the JWT token out of the headers
+  //We already know one exists
   const token = req.headers.authorization.split(" ")[1]
+
+  //Destructure the values being sent to us by the React Client { MAKE TRADE }
   let { selectedItems, toWantSelectedItems, value } = req.body
   jwt.verify(token, "SHITTYSECRETKEY", (err, decoded) => {
-    let { _id, steam64ID } = decoded
-    Lock.acquire(steam64ID.substring(10), async () => {
-      console.log('lock aquired')
+
+    let { _id, steamid } = decoded
+
+    Lock.acquire(steamid, async () => {
+
       let userRef = await userModel.findOne({ _id })
-      if (userRef.tradesOpen >= 5) res.json({ error: "Too Many Trades Open" })
+      if (userRef.tradesOpen >= 5) {
+        return next({
+          status: 403,
+          message: "Too Many Trades Open"
+        })
+      }
+      await userRef.update({ $inc: { tradesOpen: 1 } })
+
+      //We create a new mongoTrade
       let newTrade = await tradeModel.create({ description: value })
+
+      //We add both the toWant Array and the toHave array to the object
+      //And then save it
       newTrade.toHave.push(selectedItems)
       newTrade.toWant.push(toWantSelectedItems)
-      newTrade.save()
+      await newTrade.save()
+
+      //We now add the trade to the user object and save it
       userRef.trades.push(newTrade)
-      userRef.save()
-      return
+      await userRef.save()
+
     }).then(() => {
-      console.log('Lock Released')
-    });
-    console.log(userRef)
+      //We release the lock now
+      res.send("gud")
+    }).catch(e => {
+      return next({
+        status: 400,
+        message: e
+      })
+    })
+
   })
-  res.send("oh boy")
+  //res.send("oh boy")
 }
 
 //will need to have hundreds of proxies... $$$
