@@ -22,7 +22,7 @@ const SmartTradeBox = ({
   const haveItems = toHave.map((i, idx) => (
     <Item
       marketHashName={i.marketHashName}
-      onSelect={() => {}}
+      onSelect={null}
       onEvict={() => onEvictWant(i.idx)}
       tradable={i.tradable}
       unusual={i.category === "Unusual"}

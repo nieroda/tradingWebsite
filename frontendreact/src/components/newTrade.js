@@ -45,6 +45,26 @@ class NewTrade extends Component {
     }
   }
 
+  makeTrade = () => {
+    let { selectedItems, toWantSelectedItems, value } = this.state
+    /*
+    loading: true,
+    items: [],
+    selectedItems: [],
+    toWantSelectedItems: [],
+    toWantItems: [],
+    selected: 0,
+    wantSelected: 0,
+    have: true,
+    value: '',
+    searchValue: ''
+    */
+
+    apiCall('post', 'newTrade', { selectedItems, toWantSelectedItems, value}).then(
+      result => console.log(result)
+    ).catch(err => console.log(`err in post new trade ${err}`))
+  }
+
   onSetResult = items => {
     localStorage.setItem("ITEMZ", JSON.stringify(items));
     this.setState({items})
@@ -92,7 +112,6 @@ class NewTrade extends Component {
   }
 
   onSelectWant = (item) => {
-    console.log('called')
     if (this.state.wantSelected > 7) return;
     if (item.selected === true) return;
     const newState = this.state.toWantItems.map(c => {
@@ -236,7 +255,10 @@ class NewTrade extends Component {
               </textarea>
               <div className="tradeAcceptBottom">
                 <h3>{this.state.value.length}/200</h3>
-                <button className='tradeButton'>
+                <button
+                  className='tradeButton'
+                  onClick={this.makeTrade}
+                  >
                   TRADE!
                 </button>
               </div>

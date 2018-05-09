@@ -1,18 +1,19 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var mongoose = require('mongoose');
-var jwt = require('jsonwebtoken');
-//var config = require('./config/config');
-var steamStrategy = require('passport-steam').Strategy;
-var passport = require('passport');
-var userModel   = require('./models/userModel');
-var session = require('express-session')
-var app = express();
+const express          = require('express'),
+      bodyParser       = require('body-parser'),
+      cookieParser     = require('cookie-parser'),
+      mongoose         = require('mongoose'),
+      jwt              = require('jsonwebtoken'),
+      steamStrategy    = require('passport-steam').Strategy,
+      passport         = require('passport'),
+      userModel        = require('./models/userModel'),
+      session          = require('express-session'),
+      errorHandler     = require('./error'),
+      loginRoutes      = require('./routes/loginRoutes'),
+      authRoutes       = require('./routes/authRoutes')
+      app              = express()
 
-const { getTF2Item, getAllTF2Items } = require('./api/app')
+const { loginRequired, userAuth } = require("./middleware/auth")
 
-app.use(express.static('./public'))
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -52,9 +53,7 @@ app.get('/auth/return/steam',
     try {
       let { displayName } = req.user
       let { steamid, profileurl, avatarmedium } = req.user._json
-      //await userModel.remove({})
       let result = await userModel.find({ steam64ID: steamid })
-      console.log(result)
       if (result.length === 0) {
         //no user is registered
         let newUser = await userModel.create({
@@ -66,7 +65,6 @@ app.get('/auth/return/steam',
         //console.log(newUs)
         let { _id } = newUser
         let token = jwt.sign({ _id, steamid, displayName, profileurl, avatarmedium, tradesOpen: 0 }, "SHITTYSECRETKEY");
-        console.log(token)
         res.cookie('token', token);
         //sendToken(token, res)
       } else {
@@ -86,10 +84,22 @@ app.get('/auth/return/steam',
   }
 );
 
-app.get('/inventory/:steam64id', getTF2Item)
-app.get('/TF2Items/all', getAllTF2Items)
+/* Login Required Routes */
+app.use('/TF2', loginRequired, loginRoutes);
+
+/* Login + Auth Required Routes */
+app.use('/TF2Trade/:steamID', loginRequired, userAuth, authRoutes)
 
 //http://media.steampowered.com/apps/440/icons/
 
-var port = process.env.PORT || 1337;
+app.use((req, res, next) => {
+  let err = new Error("4040404 Not Found")
+  err.status = 404
+  next(err)
+})
+
+app.use(errorHandler)
+
+
+var port = process.env.PORT || 1337; //l33t!!
 app.listen(port, () => console.log(`Listening on port ${port}`))

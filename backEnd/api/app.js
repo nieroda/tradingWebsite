@@ -1,9 +1,25 @@
 const axios = require('axios')
 const fs    = require('fs')
 const data = require('../tfItems.json')
+const jwt = require('jsonwebtoken')
+
+
 
 exports.getAllTF2Items = (req, res) => {
   res.status(200).json(data)
+}
+
+exports.newTrade = (req, res) => {
+  //console.log(req.body)
+  const token = req.headers.authorization.split(" ")[1]
+
+  jwt.verify(token, "SHITTYSECRETKEY", (err, decoded) => {
+    console.log(err)
+    console.log(decoded)
+      //if (decoded) { return next() }
+  })
+  //console.log(req.headers)
+  res.send("oh boy")
 }
 
 //will need to have hundreds of proxies... $$$
