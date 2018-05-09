@@ -12,7 +12,6 @@ class SignInComplete extends Component {
     let token = cookie.load('token')
     localStorage.setItem("jwtToken", token)
     setAuthorizationToken(token)
-    //setCurrentUser(jwtDecode(localStorage.jwtToken))
     let user = jwtDecode(localStorage.jwtToken)
     hotFix({
       type: "SET_CURRENT_USER",

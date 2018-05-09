@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SmartTradeBox from './trade/smartTradeBox'
 import Item from './trade/Item'
 import { apiCall } from '../services/api'
+import { connect } from 'react-redux'
 
 
 /* very redundant, got really messy terrible code */
@@ -21,14 +22,14 @@ class NewTrade extends Component {
   }
 
   componentWillMount() {
-    //localStorage.clear()
     const cachedWants = localStorage.getItem("ToWant");
     const cachedHits = localStorage.getItem("ITEMZ");
+
     if (cachedHits) {
       this.setState({ items: JSON.parse(cachedHits), loading: false });
     } else {
       const s64id = '76561197966756586'
-      apiCall('get', `/inventory/${s64id}`).then(
+      apiCall('get', `/TF2/inventory/${s64id}`).then(
         items => {
           this.setState({ loading: false })
           this.onSetResult(items)
@@ -37,32 +38,20 @@ class NewTrade extends Component {
     }
 
     if (cachedWants) {
-      this.setState({ toWantItems: JSON.parse(cachedWants)})
+      this.setState({ toWantItems: JSON.parse(cachedWants) })
     } else {
-      apiCall('get', 'TF2Items/all').then(
+      apiCall('get', '/TF2/Items/All').then(
         items => this.setToWantResult(items)
-      ).catch(fuck => console.log(fuck))
+      ).catch(kcuf => console.log(kcuf))
     }
   }
 
   makeTrade = () => {
     let { selectedItems, toWantSelectedItems, value } = this.state
-    /*
-    loading: true,
-    items: [],
-    selectedItems: [],
-    toWantSelectedItems: [],
-    toWantItems: [],
-    selected: 0,
-    wantSelected: 0,
-    have: true,
-    value: '',
-    searchValue: ''
-    */
 
-    apiCall('post', 'newTrade', { selectedItems, toWantSelectedItems, value}).then(
+    apiCall('post', `/TF2Trade/${this.props.steamID}/new`, { selectedItems, toWantSelectedItems, value }).then(
       result => console.log(result)
-    ).catch(err => console.log(`err in post new trade ${err}`))
+    ).catch(err => console.log(`err in post new trade ${JSON.stringify(err)}`))
   }
 
   onSetResult = items => {
@@ -273,4 +262,10 @@ class NewTrade extends Component {
   }
 }
 
-export default NewTrade
+const mapStateToProps = (state) => {
+  return {
+    steamID: state.userReducer.user.steamid
+  }
+}
+
+export default connect(mapStateToProps)(NewTrade)

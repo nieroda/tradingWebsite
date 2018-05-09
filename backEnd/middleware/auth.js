@@ -23,7 +23,7 @@ exports.userAuth = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1]
     jwt.verify(token, "SHITTYSECRETKEY", (err, decoded) => {
-      if (decoded && decoded.steamid === req.params.id) return next()
+      if (decoded && decoded.steamid === req.params.steamID) return next()
       return next({
         status: 401,
         message: "Unauthorized"

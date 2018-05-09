@@ -19,7 +19,11 @@ class MyTrades extends Component {
   render() {
     let trades = []
     for (let i = 0; i < 55; i++) {
-      trades.push(<Trade />)
+      trades.push(
+        <Trade
+          key={i}
+        />
+      )
     }
 
     let { avatarmedium, displayName, tradesOpen } = this.props

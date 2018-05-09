@@ -55,7 +55,7 @@ class TradeBox extends Component {
     }
     return (
       <div>
-      {this.state.shownTrades}
+        {this.state.shownTrades}
 
         <div className="tradeNumberSelector">
           {tryNow}

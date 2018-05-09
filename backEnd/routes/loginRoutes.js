@@ -2,11 +2,16 @@ const express = require('express')
       Router  = express.Router()
 
 const {
-  newTrade
+  getTF2Item,
+  getAllTF2Items
 } = require('../api/app')
 
 
-Router.route("/new")
-        .post(newTrade)
+Router.route("/inventory/:steam64id")
+        .get(getTF2Item)
+
+Router.route("/Items/All")
+        .get(getAllTF2Items)
+
 
 module.exports = Router

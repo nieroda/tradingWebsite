@@ -1,8 +1,11 @@
-const axios = require('axios')
-const fs    = require('fs')
-const data = require('../tfItems.json')
-const jwt = require('jsonwebtoken')
-
+const axios     = require('axios')
+const fs        = require('fs')
+const data      = require('../tfItems.json')
+const jwt       = require('jsonwebtoken')
+const userModel = require('../models/userModel')
+const tradeModel = require('../models/tradeModel')
+const AsyncLock = require('async-lock');
+const Lock      = new AsyncLock()
 
 
 exports.getAllTF2Items = (req, res) => {
@@ -10,15 +13,26 @@ exports.getAllTF2Items = (req, res) => {
 }
 
 exports.newTrade = (req, res) => {
-  //console.log(req.body)
   const token = req.headers.authorization.split(" ")[1]
-
+  let { selectedItems, toWantSelectedItems, value } = req.body
   jwt.verify(token, "SHITTYSECRETKEY", (err, decoded) => {
-    console.log(err)
-    console.log(decoded)
-      //if (decoded) { return next() }
+    let { _id, steam64ID } = decoded
+    Lock.acquire(steam64ID.substring(10), async () => {
+      console.log('lock aquired')
+      let userRef = await userModel.findOne({ _id })
+      if (userRef.tradesOpen >= 5) res.json({ error: "Too Many Trades Open" })
+      let newTrade = await tradeModel.create({ description: value })
+      newTrade.toHave.push(selectedItems)
+      newTrade.toWant.push(toWantSelectedItems)
+      newTrade.save()
+      userRef.trades.push(newTrade)
+      userRef.save()
+      return
+    }).then(() => {
+      console.log('Lock Released')
+    });
+    console.log(userRef)
   })
-  //console.log(req.headers)
   res.send("oh boy")
 }
 
