@@ -1,6 +1,10 @@
 const axios = require('axios')
 const fs    = require('fs')
+const data = require('../tfItems.json')
 
+exports.getAllTF2Items = (req, res) => {
+  res.status(200).json(data)
+}
 
 //will need to have hundreds of proxies... $$$
 exports.getTF2Item = async (req, res, next) => {
@@ -60,21 +64,24 @@ const getItems = async () => {
   let allTF2Items = []
   let { data: { result: { items } } } = await axios.get(`http://api.steampowered.com/IEconItems_440/GetSchemaItems/v0001/?key=457CFC04D902AE384D6CA05904A1C362&language=en`)
 
-  items.forEach(item => {
+  items.forEach((item, idx) => {
     let { item_name, image_url, craft_class, used_by_classes } = item
+    //if (image_url === null) console.log(item)
     allTF2Items.push({
       item_name,
-      image_url,
-      craft_class,
-      used_by_classes: used_by_classes || []
+      idx,
+      image: /*image_url || null,*/ image_url ? image_url.substring(45) : null,
+      selected: false,
+      filtered: false,
+      category: null,
+      type: null,
+      qualtiy: null
+      /*craft_class,*/
+      /*used_by_classes: used_by_classes || []*/
     })
   })
-
-  allTF2Items.forEach(item => {
-    console.log(item)
-    console.log(',')
-  })
+  console.log(JSON.stringify(allTF2Items))
 }
-//  console.log(allTF2Items)}
 
-getItems()
+
+//getItems()

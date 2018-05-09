@@ -4,7 +4,8 @@ import Item from './Item'
 const SmartTradeBox = ({
   toWant,
   toHave,
-  onEvict
+  onEvict,
+  onEvictWant
 }) => {
   const wantItems = toWant.map((i, idx) => (
     <Item
@@ -22,10 +23,10 @@ const SmartTradeBox = ({
     <Item
       marketHashName={i.marketHashName}
       onSelect={() => {}}
-      onEvict={() => {}}
+      onEvict={() => onEvictWant(i.idx)}
       tradable={i.tradable}
       unusual={i.category === "Unusual"}
-      image={i.image}
+      image={`http://media.steampowered.com/apps/440/icons/${i.image}`}
       key={idx}
     />
   ))

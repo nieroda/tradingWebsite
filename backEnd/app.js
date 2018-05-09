@@ -10,7 +10,7 @@ var userModel   = require('./models/userModel');
 var session = require('express-session')
 var app = express();
 
-const { getTF2Item } = require('./api/app')
+const { getTF2Item, getAllTF2Items } = require('./api/app')
 
 app.use(express.static('./public'))
 app.use(bodyParser.urlencoded({extended: false}));
@@ -87,6 +87,9 @@ app.get('/auth/return/steam',
 );
 
 app.get('/inventory/:steam64id', getTF2Item)
+app.get('/TF2Items/all', getAllTF2Items)
+
+//http://media.steampowered.com/apps/440/icons/
 
 var port = process.env.PORT || 1337;
 app.listen(port, () => console.log(`Listening on port ${port}`))

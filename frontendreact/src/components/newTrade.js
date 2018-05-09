@@ -4,40 +4,55 @@ import Item from './trade/Item'
 import { apiCall } from '../services/api'
 
 
-
+/* very redundant, got really messy terrible code */
 
 class NewTrade extends Component {
   state = {
     loading: true,
     items: [],
-    selected: 0,
     selectedItems: [],
+    toWantSelectedItems: [],
+    toWantItems: [],
+    selected: 0,
+    wantSelected: 0,
+    have: true,
     value: '',
     searchValue: ''
   }
 
   componentWillMount() {
-
+    //localStorage.clear()
+    const cachedWants = localStorage.getItem("ToWant");
     const cachedHits = localStorage.getItem("ITEMZ");
     if (cachedHits) {
       this.setState({ items: JSON.parse(cachedHits), loading: false });
+    } else {
+      const s64id = '76561197966756586'
+      apiCall('get', `/inventory/${s64id}`).then(
+        items => {
+          this.setState({ loading: false })
+          this.onSetResult(items)
+        }
+      ).catch(fuck => console.log(fuck))
     }
 
-
-
-    const s64id = '76561197966756586'
-    apiCall('get', `/inventory/${s64id}`).then(
-      items => {
-        this.setState({ loading: false })
-        //this.setState({ items, loading: false })
-        this.onSetResult(items)
-      }
-    ).catch(fuck => console.log(fuck))
+    if (cachedWants) {
+      this.setState({ toWantItems: JSON.parse(cachedWants)})
+    } else {
+      apiCall('get', 'TF2Items/all').then(
+        items => this.setToWantResult(items)
+      ).catch(fuck => console.log(fuck))
+    }
   }
 
   onSetResult = items => {
     localStorage.setItem("ITEMZ", JSON.stringify(items));
     this.setState({items})
+  }
+
+  setToWantResult = items => {
+    localStorage.setItem("ToWant", JSON.stringify(items))
+    this.setState({ toWantItems: items })
   }
 
   searchValueChange = ({ target: { value }}) => {
@@ -76,6 +91,23 @@ class NewTrade extends Component {
     this.setState({ selectedItems: [...this.state.selectedItems, item], items: newState })
   }
 
+  onSelectWant = (item) => {
+    console.log('called')
+    if (this.state.wantSelected > 7) return;
+    if (item.selected === true) return;
+    const newState = this.state.toWantItems.map(c => {
+      if (c.idx === item.idx) {
+        return {
+          ...c,
+          selected: true
+        }
+      } return c
+    })
+
+    this.setState({ wantSelected: this.state.wantSelected + 1 })
+    this.setState({ toWantSelectedItems: [...this.state.toWantSelectedItems, item], toWantItems: newState })
+  }
+
   onEvict = (idx) => {
     const newItemState = this.state.items.map(c => {
       if (c.idx === idx) {
@@ -94,6 +126,24 @@ class NewTrade extends Component {
     })
   }
 
+  onEvictWant = (idx) => {
+    const newItemState = this.state.toWantItems.map(c => {
+      if (c.idx === idx) {
+        return {
+          ...c,
+          selected: false
+        }
+      } return c
+    })
+    const selectedItemState = this.state.toWantSelectedItems.filter(i => i.idx !== idx)
+
+    this.setState({
+      toWantItems: newItemState,
+      toWantSelectedItems: selectedItemState,
+      wantSelected: this.state.wantSelected - 1
+    })
+  }
+
   render() {
     const items = this.state.items.map((i, idx) => {
       return i.filtered ? null : (
@@ -107,16 +157,31 @@ class NewTrade extends Component {
           key={idx}
         />
       )
-    }).filter(i => i !== null)
+    })
+
+  const toWantItems = this.state.toWantItems.map((i, idx) => {
+    return i.filtered ? null : (
+      <Item
+        marketHashName={i.item_name}
+        onSelect={() => this.onSelectWant(i)}
+        tradable={true}
+        category={i.category}
+        selected={i.selected}
+        image={`http://media.steampowered.com/apps/440/icons/${i.image}`}
+        key={idx + 5000}
+      />
+    )
+  })
 
     return (
       <div className="row">
         <div className="col-md-2" />
         <div className="col-md-8">
           <SmartTradeBox
+            onEvictWant={this.onEvictWant}
             onEvict={this.onEvict}
             toWant={this.state.selectedItems}
-            toHave={[]}
+            toHave={this.state.toWantSelectedItems}
            />
           <br />
 
@@ -133,10 +198,16 @@ class NewTrade extends Component {
                   onChange={this.searchValueChange}
                 />
               </div>
-              <button className="flx1 tradeButton restrictBtn">
+              <button
+                className="flx1 tradeButton restrictBtn"
+                onClick={() => this.setState({ have: true })}
+              >
                 To Have
               </button>
-              <button className="flx1 tradeButton restrictBtn">
+              <button
+                className="flx1 tradeButton restrictBtn"
+                onClick={() => this.setState({ have: false })}
+              >
                 To Want
               </button>
             </div>
@@ -152,7 +223,7 @@ class NewTrade extends Component {
                   <div>L</div>
                 </div>
               }
-              {items}
+              {this.state.have ? [items] : [toWantItems]}
             </div>
           </div>
 
