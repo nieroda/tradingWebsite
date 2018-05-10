@@ -39,6 +39,11 @@ exports.newTrade = (req, res, next) => {
 
   //Destructure the values being sent to us by the React Client { MAKE TRADE }
   let { selectedItems, toWantSelectedItems, value } = req.body
+  console.log('SelectedItems')
+  console.log(selectedItems)
+  console.log('To Want Selected Items')
+  console.log(toWantSelectedItems)
+  console.log(value)
   jwt.verify(token, "SHITTYSECRETKEY", (err, decoded) => {
 
     let { _id, steamid } = decoded
@@ -47,7 +52,7 @@ exports.newTrade = (req, res, next) => {
 
       let userRef = await userModel.findOne({ _id })
       if (userRef.tradesOpen >= 5) {
-        return next({
+        next({
           status: 403,
           message: "Too Many Trades Open"
         })
@@ -68,6 +73,7 @@ exports.newTrade = (req, res, next) => {
       await userRef.save()
 
     }).then(() => {
+
       //We release the lock now
       res.send("gud")
     }).catch(e => {
