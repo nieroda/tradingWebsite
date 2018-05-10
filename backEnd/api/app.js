@@ -52,7 +52,12 @@ exports.newTrade = (req, res, next) => {
 
       let userRef = await userModel.findOne({ _id })
       if (userRef.tradesOpen >= 5) {
+<<<<<<< HEAD
         next({
+=======
+        //Use is not allowed more trades. We return error now 403
+        return next({
+>>>>>>> 3e11b131d8b68d412003e76efbec734af9bfa0f6
           status: 403,
           message: "Too Many Trades Open"
         })
