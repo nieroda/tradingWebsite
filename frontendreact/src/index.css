@@ -62,10 +62,6 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgb
   flex: 1;
 }
 
-.itemsContainer {
-    display: flex;
-    flex-wrap: wrap;
-}
 
 .itemContainer {
   box-sizing: border-box;
@@ -99,7 +95,6 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgb
   background-color: gray;
   margin: 0 auto;
   display: flex;
-
 }
 
 .tradeHeader {
@@ -122,6 +117,34 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgb
   padding: 10px;
 }
 
+@media screen and (max-width: 500px) {
+  body {
+    width: 765px;
+  }
+  .navbar {
+    width: 100%;
+    background-color: blue;
+    color: blue;
+  }
+  .navbar-expand {
+    width: 100%;
+    background-color: green;
+    color: blue;
+  }
+  .navbar-header {
+    color: black;
+  }
+  .nav {
+    color: blue;
+  }
+  .navbar-nav {
+    color: red;
+  }
+  .navbar-right {
+    color: purple;
+  }
+}
+
 .selectItems {
   flex-wrap: wrap;
   min-height: 300px;
@@ -135,15 +158,6 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgb
   min-height: 160px;
 }
 
-.tradeBox {
-  width: 765px;
-  min-width: 683px !important;
-  max-height: 200px;
-  background-color: gray;
-  margin: 0 auto;
-  display: flex;
-
-}
 
 #load {
   position:absolute;
