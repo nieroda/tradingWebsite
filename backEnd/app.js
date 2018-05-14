@@ -87,7 +87,7 @@ app.get('/auth/return/steam',
 );
 
 /* Login Required Routes */
-app.use('/TF2', loginRequired, loginRoutes);
+app.use('/TF2', /*loginRequired,*/ loginRoutes);
 
 /* Login + Auth Required Routes */
 app.use('/TF2Trade/:steamID', loginRequired, userAuth, authRoutes)

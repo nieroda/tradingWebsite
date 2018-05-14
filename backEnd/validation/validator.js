@@ -1,77 +1,68 @@
-//const Validator = require('better-validator');
-//const validator = new Validator();
-
 const Joi = require('joi');
 
-const another = console.log
 
-const toWantTest = [
-  { item_name: 'Shovel',
-    idx: 148,
-    image: 'w_shovel.af4732f0c4d144abfaab15f4caddb975b9055f55.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Wrench',
-    idx: 149,
-    image: 'w_wrench.c28ea76829f31aa00e65c524aa66c3486f5e6753.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Bonesaw',
-    idx: 150,
-    image: 'c_bonesaw.6a7b7e2fee4933e2b5d3cf496f0b9e236265f9bf.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Shotgun',
-    idx: 151,
-    image: 'w_shotgun.781e0a03e8536215731d276a911c5753e42901d4.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Flame Thrower',
-    idx: 160,
-    image: 'c_flamethrower.d344f780c361cba3138ec8c887b419917c9ef2b6.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Jumper\'s Jeepcap',
-    idx: 338,
-    image: 'soldier_jeepcap.7749556fc753bbee5c4acc9a7e5f52e48646b88a.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Aperture Labs Hard Hat',
-    idx: 339,
-    image: 'hardhat.ccf6804f9d7ff922abe5fa226c815e586151fdf7.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: '\'Fish\'',
-    idx: 347,
-    image: 'fish.32ac5fd24b63f5b60a70cda336b80b4ff1ce7d6a.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null } ]
+const toWantSchema = Joi.object().keys({
+    item_name: Joi.string().max(30).required(),
+    idx:       Joi.number().min(0).max(4000).required(),
+    image:     Joi.string().regex(/*/._\w+..+.png/*/ /.*.png/ /*we need better regex */).required(),
+    selected:  Joi.boolean().required(),
+    filtered:  Joi.boolean().required(),
+    category:  Joi.string().max(20).allow(null).required(),
+    type:      Joi.string().max(20).allow(null).required(),
+    qualtiy:   Joi.string().max(20).allow(null).required()
+}) /* Quality spelled wrong */
 
-const selectedItems = [ { marketHashName: 'Ghastlier Gibus',
+const toHaveSchema = Joi.object().keys({
+  marketHashName:            Joi.string().max(50).required(),
+  appid:                     Joi.string().max(3).required(),
+  tradable:                  Joi.number().min(0).max(1).required(),
+  marketTradableRestriction: Joi.number().min(0).max(255).required(),
+  image:                     Joi.string().regex(/http:\/\/steamcommunity-a.akamaihd.net\/economy\/image\/.{0,200}/).required(),
+  category:                  Joi.string().min(0).max(15).required(),
+  type:                      Joi.string().min(0).max(15).required(),
+  exterior:                  Joi.string().max(20).allow(null).required(),
+  quality:                   Joi.string().max(20).allow(null).required(),
+  selected:                  Joi.boolean().required(),
+  filtered:                  Joi.boolean().required(),
+  idx:                       Joi.number().min(0).max(4000).required()
+});
+
+const textSchema = {
+    value: Joi.string().min(0).max(200).required()
+};
+
+exports.sanatizeValueSchema = item => {
+  let { error } = Joi.validate({ value: item }, textSchema)
+  return !!!error
+}
+
+exports.sanatizeToHaveSchema = array => {
+  array.forEach(item => {
+    let data = Joi.validate(item, toHaveSchema)
+    if (data.error) {
+          return false
+    }
+  })
+  return true
+}
+
+exports.sanatizeToWantSchema = array => {
+  array.forEach(item => {
+    let  data  = Joi.validate(item, toWantSchema)
+    if (data.error) {
+      return false
+    }
+  })
+  return true
+}
+
+
+//console.log(sanatizeValueSchema(a))
+
+// This is Test Data
+
+const selectedItems = [
+  { marketHashName: 'Ghastlier Gibus',
     appid: '440',
     tradable: 0,
     marketTradableRestriction: '7',
@@ -207,35 +198,68 @@ validator(testNewItem).required().isArray(item => {
 });
 */
 
-
-const schema = Joi.object().keys({
-    item_name: Joi.string().max(30).required(),
-    idx:       Joi.number().min(0).max(4000).required(),
-    image:     Joi.string().regex(/*/._\w+..+.png/*/ /.*.png/ /*we need better regex */).required(),
-    selected:  Joi.boolean().required(),
-    filtered:  Joi.boolean().required(),
-    category:  Joi.string().max(20).allow(null).required(),
-    type:      Joi.string().max(20).allow(null).required(),
-    qualtiy:   Joi.string().max(20).allow(null).required()
-}) /* Quality spelled wrong */
-
-
-toWantTest.forEach(item => {
-  let { error } = Joi.validate(item, schema)
-  if (error) another(error)
-
-})
-
-
-//const errors = validator.run();
-//console.log(errors)
-
-/*
-const checkChild = validator.isObject()
-      .withRequired('item_name', validator.isString())
-      .withRequired('idx',       validator.isNumber())
-      .withRequired('image',     validator.isString({ regex: /._\w+..+.png/ }))
-      .withRequired('selected',  validator.isBoolean())
-      .withRequired('filtered',  validator.isBoolean())
-
-*/
+const toWantTest = [
+  { item_name: 'Shovel',
+    idx: 148,
+    image: 'w_shovel.af4732f0c4d144abfaab15f4caddb975b9055f55.png',
+    selected: false,
+    filtered: false,
+    category: null,
+    type: null,
+    qualtiy: null },
+  { item_name: 'Wrench',
+    idx: 149,
+    image: 'w_wrench.c28ea76829f31aa00e65c524aa66c3486f5e6753.png',
+    selected: false,
+    filtered: false,
+    category: null,
+    type: null,
+    qualtiy: null },
+  { item_name: 'Bonesaw',
+    idx: 150,
+    image: 'c_bonesaw.6a7b7e2fee4933e2b5d3cf496f0b9e236265f9bf.png',
+    selected: false,
+    filtered: false,
+    category: null,
+    type: null,
+    qualtiy: null },
+  { item_name: 'Shotgun',
+    idx: 151,
+    image: 'w_shotgun.781e0a03e8536215731d276a911c5753e42901d4.png',
+    selected: false,
+    filtered: false,
+    category: null,
+    type: null,
+    qualtiy: null },
+  { item_name: 'Flame Thrower',
+    idx: 160,
+    image: 'c_flamethrower.d344f780c361cba3138ec8c887b419917c9ef2b6.png',
+    selected: false,
+    filtered: false,
+    category: null,
+    type: null,
+    qualtiy: null },
+  { item_name: 'Jumper\'s Jeepcap',
+    idx: 338,
+    image: 'soldier_jeepcap.7749556fc753bbee5c4acc9a7e5f52e48646b88a.png',
+    selected: false,
+    filtered: false,
+    category: null,
+    type: null,
+    qualtiy: null },
+  { item_name: 'Aperture Labs Hard Hat',
+    idx: 339,
+    image: 'hardhat.ccf6804f9d7ff922abe5fa226c815e586151fdf7.png',
+    selected: false,
+    filtered: false,
+    category: null,
+    type: null,
+    qualtiy: null },
+  { item_name: '\'Fish\'',
+    idx: 347,
+    image: 'fish.32ac5fd24b63f5b60a70cda336b80b4ff1ce7d6a.png',
+    selected: false,
+    filtered: false,
+    category: null,
+    type: null,
+    qualtiy: null } ]

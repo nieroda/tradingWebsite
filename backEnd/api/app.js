@@ -1,13 +1,23 @@
-const axios     = require('axios')
-const fs        = require('fs')
-const data      = require('../tfItems.json')
-const jwt       = require('jsonwebtoken')
-const userModel = require('../models/userModel')
+const axios      = require('axios')
+const fs         = require('fs')
+const data       = require('../tfItems.json')
+const jwt        = require('jsonwebtoken')
+const userModel  = require('../models/userModel')
 const tradeModel = require('../models/tradeModel')
-const AsyncLock = require('async-lock');
-const Lock      = new AsyncLock()
+const AsyncLock  = require('async-lock');
+const Lock       = new AsyncLock()
+
+//Sanitize Input
+const {
+  sanatizeToHaveSchema,
+  sanatizeToWantSchema,
+  sanatizeValueSchema
+} = require('../validation/validator')
+
 
 const oh = console.log
+
+
 
 exports.getAllTF2Items = (req, res) => {
   res.status(200).json(data)
@@ -39,11 +49,18 @@ exports.newTrade = (req, res, next) => {
 
   //Destructure the values being sent to us by the React Client { MAKE TRADE }
   let { selectedItems, toWantSelectedItems, value } = req.body
-  console.log('SelectedItems')
-  console.log(selectedItems)
-  console.log('To Want Selected Items')
   console.log(toWantSelectedItems)
-  console.log(value)
+  if ((!sanatizeToWantSchema(toWantSelectedItems) ||
+           !sanatizeToHaveSchema(selectedItems))  ||
+           !sanatizeValueSchema(value)) {
+        //Params have been tampered with
+        //I dont think we want to tell them bad input. Just throw 404?
+        return next({
+          status: 404,
+          message: "Internal Error"
+        })
+      }
+
   jwt.verify(token, "SHITTYSECRETKEY", (err, decoded) => {
 
     let { _id, steamid } = decoded
@@ -52,12 +69,7 @@ exports.newTrade = (req, res, next) => {
 
       let userRef = await userModel.findOne({ _id })
       if (userRef.tradesOpen >= 5) {
-<<<<<<< HEAD
-        next({
-=======
-        //Use is not allowed more trades. We return error now 403
-        return next({
->>>>>>> 3e11b131d8b68d412003e76efbec734af9bfa0f6
+        /*return*/ next({
           status: 403,
           message: "Too Many Trades Open"
         })
@@ -157,11 +169,11 @@ const getItems = async () => {
       item_name,
       idx,
       image: /*image_url || null,*/ image_url ? image_url.substring(45) : null,
-      selected: false,
-      filtered: false,
-      category: null,
-      type: null,
-      qualtiy: null
+  //    selected: false,
+  //    filtered: false,
+  //    category: null,
+  //    type: null,
+  //    quality: null
       /*craft_class,*/
       /*used_by_classes: used_by_classes || []*/
     })
@@ -169,5 +181,5 @@ const getItems = async () => {
   console.log(JSON.stringify(allTF2Items))
 }
 
-
+//getItems()
 //getItems()

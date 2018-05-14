@@ -418,9 +418,10 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgb
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-
-    position: absolute;
+    position: fixed;
     z-index: 1;
+    left: 0;
+    top: 0;
 }
 
 .itemHover:hover {
