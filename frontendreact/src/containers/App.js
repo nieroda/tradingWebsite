@@ -12,7 +12,7 @@ import jwtDecode from 'jwt-decode'
 
 import { setAuthorizationToken, setCurrentUser } from '../store/actions/auth'
 
-export const store = configureStore()
+const store = configureStore()
 
 
 if (localStorage.jwtToken) {
@@ -24,7 +24,7 @@ if (localStorage.jwtToken) {
   }
 }
 
-//not sure why i cant dispatchwithout this...
+//not sure why i cant dispatch without this...
 export function hotFix(newState) {
   store.dispatch(newState)
 }
@@ -39,10 +39,10 @@ class App extends Component {
           <div className="onboarding">
             <NavBar />
             <Switch>
-              <Route exact path='/' component={Homepage} />
-              <Route exact path='/main' component={viewTrades} />
-              <Route exact path='/newtrade' component={newTrade} />
-              <Route exact path='/mytrades' component={myTrades} />
+              <Route exact path='/' component={Homepage}                    />
+              <Route exact path='/main' component={viewTrades}              />
+              <Route exact path='/newtrade' component={newTrade}            />
+              <Route exact path='/mytrades' component={myTrades}            />
               <Route exact path='/signIn'   component={() => window.location = 'http://localhost:1337/auth/steam'} />
               <Route exact path='/finishedSignin' component={SignInComplete} />
             </Switch>

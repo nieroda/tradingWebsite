@@ -1,6 +1,6 @@
 const { dataMap } = require('./itemKeyMap.js')
 
-//to want
+//to want NEED BETTER DATA
 const testData = [ { item_name: 'Minigun',
     idx: 15,
     image: 'w_minigun.92362e2a8d60b5dd050c0e85e911ee1499a7b559.png',

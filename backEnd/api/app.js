@@ -15,7 +15,7 @@ const {
 } = require('../validation/validator')
 
 
-const oh = console.log
+//const oh = console.log
 
 
 
@@ -32,11 +32,10 @@ exports.getUsersTrades = async (req, res) => {
 
     let user = await userModel.findOne({ steam64ID: req.params.steam64id }).populate('trades')
     res.status(200).json(user)
-  } catch(well) {
-    oh(well)
+  } catch(error) {
     return next({
       status:404,
-      error: well
+      error
     })
   }
 
@@ -49,7 +48,7 @@ exports.newTrade = (req, res, next) => {
 
   //Destructure the values being sent to us by the React Client { MAKE TRADE }
   let { selectedItems, toWantSelectedItems, value } = req.body
-  console.log(toWantSelectedItems)
+  console.log(selectedItems)
   if ((!sanatizeToWantSchema(toWantSelectedItems) ||
            !sanatizeToHaveSchema(selectedItems))  ||
            !sanatizeValueSchema(value)) {
@@ -125,6 +124,7 @@ exports.getTF2Item = async (req, res, next) => {
   				tradable: item.tradable,
   				marketTradableRestriction: item.market_tradable_restriction,
   				image: `http://steamcommunity-a.akamaihd.net/economy/image/${item.icon_url}`,
+          effect: null, /* only if unusual */
   				category: null,
   				type: null,
   				exterior: null,
@@ -149,12 +149,21 @@ exports.getTF2Item = async (req, res, next) => {
   				}
   			});
 
+        if (data.category === 'Unusual') {
+          item.descriptions.forEach(desc => {
+            if (desc.value.includes("★ Unusual Effect:")) {
+              data.effect = desc.value.match(/★ Unusual Effect: (.*)/)[1]
+            }
+          })
+        }
   			response.push(data)
   		});
       res.status(200).json(response)
   } catch (e) {
     res.status(429).json({ error: e })
     //429
+    console.log('fail')
+    console.log(e)
   }
 }
 

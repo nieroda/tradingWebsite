@@ -22,7 +22,7 @@ export default function withAuth(componentToBeRendered) {
 
   const mapStateToProps = state => {
     const { currentUser: { isAuthenticated } } = state
-    return { currentUser }
+    return { isAuthenticated }
   }
 
   export default connect(mapStateToProps)(Authenticated)

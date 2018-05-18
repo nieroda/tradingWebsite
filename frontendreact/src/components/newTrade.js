@@ -22,15 +22,17 @@ class NewTrade extends Component {
   }
 
   componentWillMount() {
+    localStorage.clear()
     const cachedWants = localStorage.getItem("ToWant");
     const cachedHits = localStorage.getItem("ITEMZ");
-
+    //console.log(cachedHits)
     if (cachedHits) {
       this.setState({ items: JSON.parse(cachedHits), loading: false });
     } else {
       const s64id = '76561197966756586'
       apiCall('get', `/TF2/inventory/${s64id}`).then(
         items => {
+          console.log(items)
           this.setState({ loading: false })
           this.onSetResult(items)
         }
