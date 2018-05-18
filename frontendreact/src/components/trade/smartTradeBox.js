@@ -1,11 +1,13 @@
 import React from 'react'
 import Item from './Item'
+import ItemWant from './ItemWant'
 
 const SmartTradeBox = ({
   toWant,
   toHave,
   onEvict,
-  onEvictWant
+  onEvictWant,
+  addEffect
 }) => {
   const wantItems = toWant.map((i, idx) => (
     <Item
@@ -20,7 +22,9 @@ const SmartTradeBox = ({
   ))
 
   const haveItems = toHave.map((i, idx) => (
-    <Item
+    <ItemWant
+      addEffect={addEffect}
+      index={idx}
       marketHashName={i.marketHashName}
       onSelect={null}
       onEvict={() => onEvictWant(i.idx)}

@@ -553,3 +553,59 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(111,49,21,1) 38%, rgb
 .selectedNumber {
   color: black;
 }
+
+/* EFFECT CSS Starts Now, these will be auto generated through a map once I have hosted on cdn */
+.generalEffect {
+  background-position: center;
+}
+
+.greenenergy {
+  background-image: url("http://www.tf2outpost.com/cxresources/MTg1MjAxODE3fGN4by5ib3xodHRwOi8vY2RuLnRmMm91dHBvc3QuY29tL2ltZy9nYW1lcy80NDAvZWZmZWN0cy85LnBuZ3wxODUyMDE4MTdjeG8uYm98MTg1MjAxODE3");
+}
+
+.circlingheart {
+  background-image: url("http://www.tf2outpost.com/cxresources/MTg1MjAxODE3fGN4by5ib3xodHRwOi8vY2RuLnRmMm91dHBvc3QuY29tL2ltZy9nYW1lcy80NDAvZWZmZWN0cy8xOS5wbmd8MTg1MjAxODE3Y3hvLmJvfDE4NTIwMTgxNw==")
+}
+
+.sunbeams {
+  background-image: url("http://www.tf2outpost.com/cxresources/MTg1MjAxODE3fGN4by5ibXxodHRwOi8vY2RuLnRmMm91dHBvc3QuY29tL2ltZy9nYW1lcy80NDAvZWZmZWN0cy8xNy5wbmd8MTg1MjAxODE3Y3hvLmJtfDE4NTIwMTgxNw==")
+}
+
+.vividplasma {
+  background-image: url("http://www.tf2outpost.com/cxresources/MTg1MjAxODE3fGN4by5ibnxodHRwOi8vY2RuLnRmMm91dHBvc3QuY29tL2ltZy9nYW1lcy80NDAvZWZmZWN0cy8xNi5wbmd8MTg1MjAxODE3Y3hvLmJufDE4NTIwMTgxNw==")
+}
+
+.scorchingflames {
+  background-image: url("http://www.tf2outpost.com/cxresources/MTg1MjAxODE3fGN4by5ibnxodHRwOi8vY2RuLnRmMm91dHBvc3QuY29tL2ltZy9nYW1lcy80NDAvZWZmZWN0cy8xNC5wbmd8MTg1MjAxODE3Y3hvLmJufDE4NTIwMTgxNw==")
+}
+
+.anti-freeze {
+  background-image: url("http://cdn.tf2outpost.com/img/games/440/effects/69.png")
+}
+
+.purpleenergy {
+  background-image: url("http://cdn.tf2outpost.com/img/games/440/effects/10.png")
+}
+
+.roboactive {
+  background-image: url("http://cdn.tf2outpost.com/img/games/440/effects/72.png")
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}

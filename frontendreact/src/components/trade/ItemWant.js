@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class Item extends Component {
+class ItemWant extends Component {
   state = {
     isHovering: false,
   }
@@ -17,10 +17,17 @@ class Item extends Component {
     })
   }
 
+  handleChange = (event) => {
+    let { index, addEffect } = this.props
+    addEffect(index, event.target.value)
+  }
+
+
+
   render() {
 
     let border = 'itemImg'
-    let { category, selected, effect } = this.props
+    let { category, selected, effect, addEffect, idx } = this.props
     if (category === 'Unique')  border += ' uniqueItem'
     if (category === 'Strange') border += ' strangeItem'
     if (category === 'Unusual') border += ' unusualHat'
@@ -30,7 +37,7 @@ class Item extends Component {
     let image = this.props.image || "https://steamcommunity-a.akamaihd.net/economy/image/1MrIl4MIJ_pNBhReTwBpxJ8G4GM4OekG2V3huqL5LCqk1i0eEBQwwm_zt8cl-xrtvDXIxynVGhd-5BiafXWCP1pqEceh9FmngpDgffU/360fx360f"
 
     return (
-      <span className=''>
+      <span className='dropdown'>
         <img
           onMouseEnter={this.handleMouseHoverEnter}
           onMouseLeave={this.handleMouseHoverLeave}
@@ -39,15 +46,26 @@ class Item extends Component {
           className={`${border} ${effect ? effect.toLowerCase().replace(/\s+/g, '') : null} generalEffect`}
           src={image}
         />
-          {this.state.isHovering &&
-            <div className="itemHover">
-              {this.props.marketHashName}
-            </div>
-          }
+        <div className="dropdown-content">
+          <div className="form-group">
+            <label>Select list:</label>
+            <select className="form-control" onChange={this.handleChange}>
+              <option>None</option>
+              <option>Burning Flames</option>
+              <option>Scorching Flames</option>
+              <option>Purple Energy</option>
+              <option>Green Energy</option>
+              <option>Blizzardy Storm</option>
+              <option>Stormy Storm</option>
+            </select>
+          </div>
+        </div>
 
       </span>
+
+
     )
   }
 }
 
-export default Item
+export default ItemWant

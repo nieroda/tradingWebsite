@@ -22,7 +22,7 @@ class NewTrade extends Component {
   }
 
   componentWillMount() {
-    localStorage.clear()
+    //localStorage.clear()
     const cachedWants = localStorage.getItem("ToWant");
     const cachedHits = localStorage.getItem("ITEMZ");
     //console.log(cachedHits)
@@ -32,7 +32,7 @@ class NewTrade extends Component {
       const s64id = '76561197966756586'
       apiCall('get', `/TF2/inventory/${s64id}`).then(
         items => {
-          console.log(items)
+          //console.log(items)
           this.setState({ loading: false })
           this.onSetResult(items)
         }
@@ -58,12 +58,26 @@ class NewTrade extends Component {
 
   onSetResult = items => {
     localStorage.setItem("ITEMZ", JSON.stringify(items));
-    this.setState({items})
+    this.setState({ items })
   }
 
   setToWantResult = items => {
     localStorage.setItem("ToWant", JSON.stringify(items))
     this.setState({ toWantItems: items })
+  }
+
+  updateUnusualEffectToWantItem = (index, newEffect) => {
+    console.log('called')
+    console.log(newEffect)
+    const newToWantItems = this.state.toWantSelectedItems.map((i, idx) => {
+      return index === idx ? {
+        ...i,
+        effect: newEffect
+      } : { ...i }
+    })
+
+
+    this.setState({ toWantSelectedItems: newToWantItems })
   }
 
   searchValueChange = ({ target: { value }}) => {
@@ -164,6 +178,7 @@ class NewTrade extends Component {
           category={i.category}
           selected={i.selected}
           image={i.image}
+          effect={i.effect}
           key={idx}
         />
       )
@@ -188,6 +203,7 @@ class NewTrade extends Component {
         <div className="col-md-2" />
         <div className="col-md-8">
           <SmartTradeBox
+            addEffect={this.updateUnusualEffectToWantItem}
             onEvictWant={this.onEvictWant}
             onEvict={this.onEvict}
             toWant={this.state.selectedItems}
@@ -249,7 +265,7 @@ class NewTrade extends Component {
                 <button
                   className='tradeButton'
                   onClick={this.makeTrade}
-                  >
+                >
                   TRADE!
                 </button>
               </div>
