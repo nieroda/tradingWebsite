@@ -8,8 +8,8 @@ export function apiCall(method, path, data){
   })
 }
 
+//One xss would destroy, need to test for low hanging 'fruit => xss'
 export function setTokenHeader(token) {
-  console.log('setting token')
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
   } else {

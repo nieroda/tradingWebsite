@@ -16,7 +16,6 @@ export function setAuthorizationToken(token) {
 }
 
 export function logout() {
-  console.log('called')
   localStorage.clear()
   setTokenHeader(false)
   //dispatch(setCurrentUser({}))

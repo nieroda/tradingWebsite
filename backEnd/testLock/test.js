@@ -1,7 +1,7 @@
 var AsyncLock = require('async-lock');
 var lock = new AsyncLock();
 
-
+//Was used to test lock
  const randomReturnFunction = () => {
    return new Promise(resolve => {
      setTimeout(

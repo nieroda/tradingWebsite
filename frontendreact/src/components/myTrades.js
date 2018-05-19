@@ -6,6 +6,23 @@ import TradeBox from './tradeBox'
 
 class MyTrades extends Component {
 
+  state = {
+    trades: []
+  }
+
+  componentWillMount() {
+    let trades = []
+    for (let i = 0; i < 55; i++) {
+      trades.push(
+        <Trade
+          key={i}
+        />
+      )
+    }
+
+    this.setState({ trades })
+  }
+
   getRandomSaying = () => {
     let sayings = [
       "React 15 no longer emits extra nodes around the text, making the DOM output much cleaner.",
@@ -17,14 +34,7 @@ class MyTrades extends Component {
   }
 
   render() {
-    let trades = []
-    for (let i = 0; i < 55; i++) {
-      trades.push(
-        <Trade
-          key={i}
-        />
-      )
-    }
+
 
     let { avatarmedium, displayName, tradesOpen } = this.props
     console.log(avatarmedium)
@@ -47,7 +57,7 @@ class MyTrades extends Component {
           </div>
 
           <TradeBox
-            trades={trades}
+            trades={this.state.trades}
           />
 
 
@@ -59,15 +69,13 @@ class MyTrades extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
   const { userReducer: { user: { displayName, tradesOpen, profileurl, avatarmedium } } } = state
   return {
     displayName,
-    tradesOpen, /* Trades NOT trades open TODO */
+    tradesOpen, /* Trades NOT trades open TODO IMPOARTANT! */
     profileurl,
     avatarmedium
   }
 }
 
 export default connect(mapStateToProps)(MyTrades)
-//export default MyTrades;

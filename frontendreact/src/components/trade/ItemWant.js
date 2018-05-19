@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { EffectMap } from '../../compressor/maps/itemEffectMap'
+
 
 class ItemWant extends Component {
   state = {
@@ -50,6 +52,10 @@ class ItemWant extends Component {
           <div className="form-group">
             <label>Select list:</label>
             <select className="form-control" onChange={this.handleChange}>
+              <option>None</option>
+              {
+                Object.keys(EffectMap).map(effectName => <option>`${effectName}`</option>)
+              }
               <option>None</option>
               <option>Green Energy</option>
               <option>Circling Heart</option>

@@ -7,7 +7,7 @@ import TradeBox from './tradeBox'
 class viewTrades extends Component {
 
   render() {
-
+    //for example
     let trades = []
     for (let i = 0; i < 12; i++) {
       trades.push(<Trade />)

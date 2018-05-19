@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux'
-import { configureStore } from '../store'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+
 import NavBar from './navbar.js'
 import Homepage from '../components/Homepage'
 import viewTrades from '../components/viewTrades'
@@ -10,7 +8,19 @@ import myTrades from '../components/myTrades'
 import SignInComplete from '../components/signincomplete'
 import jwtDecode from 'jwt-decode'
 
-import { setAuthorizationToken, setCurrentUser } from '../store/actions/auth'
+import { Provider } from 'react-redux'
+import { configureStore } from '../store'
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom'
+
+import {
+  setAuthorizationToken,
+  setCurrentUser
+} from '../store/actions/auth'
 
 const store = configureStore()
 
@@ -25,6 +35,7 @@ if (localStorage.jwtToken) {
 }
 
 //not sure why i cant dispatch without this...
+//update #1 I still cant dispatch without this?
 export function hotFix(newState) {
   store.dispatch(newState)
 }

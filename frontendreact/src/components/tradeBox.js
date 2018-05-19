@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 class TradeBox extends Component {
+  
   state = {
     trades: [],
     shownTrades: [],

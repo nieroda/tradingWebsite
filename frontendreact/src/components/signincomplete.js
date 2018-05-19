@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode'
 import { hotFix } from '../containers/App'
 
 //hoc
+//Could just call dispatch on store?
 
 class SignInComplete extends Component {
   componentWillMount() {

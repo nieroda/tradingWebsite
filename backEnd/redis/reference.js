@@ -1,3 +1,17 @@
+/*
+
+Redis Cache Design
+
+-> global:timeline -> hmset
+   userid:timeline -> hmset also a linkedlist
+
+   _id23423423234:timeline -> is the linked list in cache of the user
+
+
+*/
+
+
+
 const express = require('express')
 const exphbs = require('express-handlebars')
 const path = require('path')
