@@ -17,9 +17,9 @@ class ItemWant extends Component {
     })
   }
 
-  handleChange = (event) => {
+  handleChange = ({ target: { value }}) => {
     let { index, addEffect } = this.props
-    addEffect(index, event.target.value)
+    addEffect(index, value)
   }
 
 
@@ -51,12 +51,14 @@ class ItemWant extends Component {
             <label>Select list:</label>
             <select className="form-control" onChange={this.handleChange}>
               <option>None</option>
-              <option>Burning Flames</option>
-              <option>Scorching Flames</option>
-              <option>Purple Energy</option>
               <option>Green Energy</option>
-              <option>Blizzardy Storm</option>
-              <option>Stormy Storm</option>
+              <option>Circling Heart</option>
+              <option>Sunbeams</option>
+              <option>Vivid Plasma</option>
+              <option>Scorching Flames</option>
+              <option>Anti-Freeze</option>
+              <option>Purple Energy</option>
+              <option>Roboactive</option>
             </select>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 class Item extends Component {
+  /*
   state = {
     isHovering: false,
   }
@@ -16,7 +17,7 @@ class Item extends Component {
       isHovering: false
     })
   }
-
+*/
   render() {
 
     let border = 'itemImg'
@@ -39,11 +40,8 @@ class Item extends Component {
           className={`${border} ${effect ? effect.toLowerCase().replace(/\s+/g, '') : null} generalEffect`}
           src={image}
         />
-          {this.state.isHovering &&
-            <div className="itemHover">
-              {this.props.marketHashName}
-            </div>
-          }
+
+
 
       </span>
     )
@@ -51,3 +49,10 @@ class Item extends Component {
 }
 
 export default Item
+
+/*
+{this.state.isHovering &&
+  <div className="itemHover">
+    {this.props.marketHashName}
+  </div>
+  */

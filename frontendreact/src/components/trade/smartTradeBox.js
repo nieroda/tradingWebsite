@@ -17,6 +17,7 @@ const SmartTradeBox = ({
       tradable={i.tradable}
       category={i.category}
       image={i.image}
+      effect={i.effect}
       key={idx}
     />
   ))
@@ -30,6 +31,7 @@ const SmartTradeBox = ({
       onEvict={() => onEvictWant(i.idx)}
       tradable={i.tradable}
       unusual={i.category === "Unusual"}
+      effect={i.effect}
       image={`http://media.steampowered.com/apps/440/icons/${i.image}`}
       key={idx}
     />

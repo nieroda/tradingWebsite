@@ -1,74 +1,139 @@
-const { dataMap } = require('./itemKeyMap.js')
-
+// TEST FILE
+/*
+const { dataMap }   = require('./maps/itemKeyMap')
+const { EffectMap } = require('./maps/itemEffectMap')
 //to want NEED BETTER DATA
-const testData = [ { item_name: 'Minigun',
-    idx: 15,
-    image: 'w_minigun.92362e2a8d60b5dd050c0e85e911ee1499a7b559.png',
+const stepData = [ { marketHashName: 'Vintage Scotsman\'s Stove Pipe',
+    appid: '440',
+    tradable: 1,
+    marketTradableRestriction: '7',
+    image: 'http://steamcommunity-a.akamaihd.net/economy/image/IzMF03bi9WpSBq-S-ekoE33L-iLqGFHVaU25ZzQNQcXdEH9myp0erksICfSMf6UeRJpnuHWVVIOM0d0P0ipRzzNfKS32zjt5avVTMMrS_wn6s-WIUnDza2DHK3LYHQw5T7ZWPW_f-TOttr_GRTvOQOwoQQ9XefMNp2QYac2Xf0xqwsBoL5w',
+    effect: null,
+    category: 'Vintage',
+    type: 'Cosmetic',
+    exterior: null,
+    quality: null,
     selected: false,
     filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Revolver',
-    idx: 24,
-    image: 'w_revolver.9b4a43c8ce5797a08d0dfb5d9d5bfb1b90928008.png',
+    idx: 300 },
+  { marketHashName: 'Vintage Bill\'s Hat',
+    appid: '440',
+    tradable: 1,
+    marketTradableRestriction: '7',
+    image: 'http://steamcommunity-a.akamaihd.net/economy/image/IzMF03bi9WpSBq-S-ekoE33L-iLqGFHVaU25ZzQNQcXdEH9myp0erksICfTYffEcEJhnqWSMU5OD2NgLxXcNnChXOjLx2Sk5MbUqMcbBnQz4ruyeU3DyZTj7LSjVEGFkHPEJYHbZ_DOi4uuURDiYE-x9EgEHfKdR8DEbPJqAOhE7h9YO-TztwBwlTBUqPNVId8dd37d5',
+    effect: null,
+    category: 'Vintage',
+    type: 'Cosmetic',
+    exterior: null,
+    quality: null,
     selected: false,
     filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Horseless Headless Horsemann\'s Head',
-    idx: 222,
-    image: 'pumkin_hat.ccaeeb1e364755b7ca137c26f33dcb5b6f372051.png',
+    idx: 318 },
+  { marketHashName: 'The Buffalo Steak Sandvich',
+    appid: '440',
+    tradable: 1,
+    marketTradableRestriction: '7',
+    image: 'http://steamcommunity-a.akamaihd.net/economy/image/fWFc82js0fmoRAP-qOIPu5THSWqfSmTELLqcUywGkijVjZULUrsm1j-9xgEIUwUEWx3jtDd8m9zjDPmzBOESnN97vJJWizdpk1J9bLSxZm4zdlGQWPELCKM7rQm1DCFqvpAzVY7i9etQeRKv6tV06ET7Xg',
+    effect: null,
+    category: 'Unique',
+    type: 'Secondary weapon',
+    exterior: null,
+    quality: null,
     selected: false,
     filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Noise Maker - Stabby',
-    idx: 231,
-    image: 'noisemaker_stabby.c3985828ee6433c18a95dd396205dc756522f026.png',
+    idx: 660 },
+  { marketHashName: 'Unusual Hong Kong Cone',
+    appid: '440',
+    tradable: 1,
+    marketTradableRestriction: '7',
+    image: 'http://steamcommunity-a.akamaihd.net/economy/image/IzMF03bi9WpSBq-S-ekoE33L-iLqGFHVaU25ZzQNQcXdEH9myp0erksICfSMf6UeRJpnqWSMU5OD2IwJkXVZnihXOjLx2Sk5MbUqMcbBnQz4ruyeU3L2ZDuWf3CKI1ZnE-QxbjeHqVz2urPBLWSYA795XQhVevAF8GZBPMyJPRpohYFd-GbswhV-S0B_dJQeKVe6zncXNOt2zHZcNcUFbK_2cpI',
+    effect: 'Sunbeams',
+    category: 'Unusual',
+    type: 'Cosmetic',
+    exterior: null,
+    quality: null,
     selected: false,
     filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Noise Maker - TF Birthday',
-    idx: 438,
-    image: 'noisemaker_birthday.7ed89b3d9780fce251833e7aec610a502703be06.png',
+    idx: 138 },
+  { marketHashName: 'Unusual Tavish DeGroot Experience',
+    appid: '440',
+    tradable: 1,
+    marketTradableRestriction: '7',
+    image: 'http://steamcommunity-a.akamaihd.net/economy/image/fWFc82js0fmoRAP-qOIPu5THSWqfSmTELLqcUywGkijVjZULUrsm1j-9xgENewwuWR7vtwdQidvuBfOYN-wBid0wq5MCjWAykAJ6bebgZjQ3I1GVUvcNXqM78Fq9UX8x7ZUyA4_n8elUfl_x9NyRj4rKsvg',
+    effect: 'Sunbeams',
+    category: 'Unusual',
+    type: 'Cosmetic',
+    exterior: null,
+    quality: null,
     selected: false,
     filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Company Man',
-    idx: 429,
-    image: 'dex_hat.9ff579975da28c68317a9d5483b4de7030662b98.png',
+    idx: 130 },
+  { marketHashName: 'Strange Unusual Bonk Boy',
+    appid: '440',
+    tradable: 1,
+    marketTradableRestriction: '7',
+    image: 'http://steamcommunity-a.akamaihd.net/economy/image/fWFc82js0fmoRAP-qOIPu5THSWqfSmTELLqcUywGkijVjZULUrsm1j-9xgEJYwkaYhbjqzN8hMn0CvfCCbRXyd5msZIGiWU8xVIoY7KxYm43I1eaBPlcBaxvo1vuWX5iu5c0UJmm-bzNIXyq-A',
+    effect: 'Sunbeams',
+    category: 'Unusual',
+    type: 'Cosmetic',
+    exterior: null,
+    quality: null,
     selected: false,
     filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Original',
-    idx: 419,
-    image: 'c_bet_rocketlauncher.82e06d0cc0c9eb80179358ebe0d85d483018de4d.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null },
-  { item_name: 'Deus Specs',
-    idx: 428,
-    image: 'dex_glasses.fc5a5274787cce4d0a5ff5a9da64944710d9a32a.png',
-    selected: false,
-    filtered: false,
-    category: null,
-    type: null,
-    qualtiy: null } ]
-
+    idx: 121 } ]
 let newData = []
-testData.forEach(item => {
-  console.log(dataMap[item.item_name])
+
+stepData.forEach(item => {
+  //perhaps use string
+  //ex
+  //item: "us" -> unusual strange
+  let vintage = unusual = genuine = strange = false;
+  // or ?
+  let itemData = ''
+  let { marketHashName, effect } = item
+
+  //Remove strange set true
+  if (marketHashName.includes("Strange")) {
+    strange = true
+    itemData += 's'
+    marketHashName = marketHashName.replace("Strange ", "")
+  }
+
+  //Remove Vintage set true
+  if (marketHashName.includes("Vintage")) {
+    vintage = true
+    itemData += 'v'
+    marketHashName = marketHashName.replace("Vintage ", "")
+  }
+
+  //Remove Genuine set true
+  if (marketHashName.includes("Genuine")) {
+    genuine = true
+    itemData += 'g'
+    marketHashName = marketHashName.replace("Genuine ", "")
+  }
+
+  //Remove unusual. get effect y mas
+  if (marketHashName.includes("Unusual")) {
+    unusual = true
+    itemData += 'u'
+    marketHashName = marketHashName.replace("Unusual ", "")
+  }
+
+
+  let t  = dataMap[marketHashName]
+  //Some are undef(MUST FIX)
+
+  t = t ? t.idx : 9999
+
+  newData.push({
+    item_id: t,
+    effect:  EffectMap[effect] || null,
+    itemData,
+  })
+
 })
+console.log(newData)
 
 //console.log(dataMap)
+*/

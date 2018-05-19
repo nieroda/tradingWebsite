@@ -49,6 +49,8 @@ exports.newTrade = (req, res, next) => {
   //Destructure the values being sent to us by the React Client { MAKE TRADE }
   let { selectedItems, toWantSelectedItems, value } = req.body
   console.log(selectedItems)
+  console.log("\n\n\n\n\n\n\n\n")
+  console.log(toWantSelectedItems)
   if ((!sanatizeToWantSchema(toWantSelectedItems) ||
            !sanatizeToHaveSchema(selectedItems))  ||
            !sanatizeValueSchema(value)) {

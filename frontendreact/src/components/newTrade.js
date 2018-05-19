@@ -50,7 +50,7 @@ class NewTrade extends Component {
 
   makeTrade = () => {
     let { selectedItems, toWantSelectedItems, value } = this.state
-
+    console.log(selectedItems)
     apiCall('post', `/TF2Trade/${this.props.steamID}/new`, { selectedItems, toWantSelectedItems, value }).then(
       result => console.log(result)
     ).catch(err => console.log(`err in post new trade ${JSON.stringify(err)}`))
@@ -95,9 +95,9 @@ class NewTrade extends Component {
   }
 
 
-  handleChange = (event) => {
-    if (event.target.value.length > 200) return
-    this.setState({ value: event.target.value});
+  handleChange = ({ target: { value }}) => {
+    if (value.length > 200) return
+    this.setState({ value });
   }
 
   onSelect = (item) => {
@@ -134,12 +134,10 @@ class NewTrade extends Component {
 
   onEvict = (idx) => {
     const newItemState = this.state.items.map(c => {
-      if (c.idx === idx) {
-        return {
-          ...c,
-          selected: false
-        }
-      } return c
+      return c.idx === idx ? {
+        ...c,
+        selected: false
+      } : { ...c }
     })
     const selectedItemState = this.state.selectedItems.filter(i => i.idx !== idx)
 
