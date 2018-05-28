@@ -14,6 +14,7 @@ const textSchema = {
 
 exports.sanatizeValueSchema = item => {
   let { error } = Joi.validate({ value: item }, textSchema)
+  console.log(`Result is ${!!!error}`)
   return !!!error
 }
 
@@ -23,6 +24,7 @@ exports.newSanatizeTest = array => {
     let { error } = Joi.validate(item, newSanatizeSchema)
     if (error) err = true
   })
+  console.log(`Result is ${err}`)
   return err
 }
 

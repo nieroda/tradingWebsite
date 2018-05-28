@@ -10,6 +10,14 @@ Redis Cache Design
 
 */
 
+//redis-server
+//new window
+//redis-cli
+
+//lpush <s64id> object(serialized json)
+//lrange nathan 0 -1
+
+//You can use LPUSH together with LTRIM to create a list that never exceeds a given number of elements, but just remembers the latest N elements.
 
 
 const express = require('express')

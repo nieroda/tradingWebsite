@@ -19,11 +19,14 @@ class ItemWant extends Component {
     })
   }
 
-  handleChange = ({ target: { value }}) => {
+  handleChangeEffect = ({ target: { value }}) => {
     let { index, addEffect } = this.props
     addEffect(index, value)
   }
 
+  handleChangeType = ({ target: { value }}) => {
+
+  }
 
 
   render() {
@@ -50,21 +53,20 @@ class ItemWant extends Component {
         />
         <div className="dropdown-content">
           <div className="form-group">
-            <label>Select list:</label>
-            <select className="form-control" onChange={this.handleChange}>
+            <label>Effect:</label>
+            <select className="form-control" onChange={this.handleChangeEffect}>
               <option>None</option>
-              {
-                Object.keys(EffectMap).map(effectName => <option>`${effectName}`</option>)
-              }
+              {Object.keys(EffectMap).map(effectName => <option>{effectName}</option>)}
+            </select>
+            <br />
+            <label>Effect:</label>
+            <select className="form-control" onChange={this.handleChangeType}>
               <option>None</option>
-              <option>Green Energy</option>
-              <option>Circling Heart</option>
-              <option>Sunbeams</option>
-              <option>Vivid Plasma</option>
-              <option>Scorching Flames</option>
-              <option>Anti-Freeze</option>
-              <option>Purple Energy</option>
-              <option>Roboactive</option>
+              <option>Vintage</option>
+              <option>Genuine</option>
+              <option>Strange</option>
+              <option>Unusual</option>
+
             </select>
           </div>
         </div>
