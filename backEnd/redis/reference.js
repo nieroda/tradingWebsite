@@ -18,6 +18,9 @@ Redis Cache Design
 //lrange nathan 0 -1
 
 //You can use LPUSH together with LTRIM to create a list that never exceeds a given number of elements, but just remembers the latest N elements.
+//to max at 10 we can use LTRIM
+//LTRIM <s64id> 0 10
+
 
 
 const express = require('express')
