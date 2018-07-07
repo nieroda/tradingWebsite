@@ -1,6 +1,6 @@
 const redis = require('redis')
 
-const client = redis.createClient()
+let client
 const nathan = "76561198197292179"
 const dummyData = [{"item_id":80,"effect":null,"itemData":"v"},{"item_id":86,"effect":null,"itemData":"v"},{"item_id":251,"effect":null,"itemData":""},{"item_id":9999,"effect":6,"itemData":"u"},{"item_id":505,"effect":6,"itemData":"u"},{"item_id":368,"effect":6,"itemData":"su"}]
 const mongoID = "_id507f191e810c19729de860ea"
@@ -37,11 +37,13 @@ function queryRedis() {
 }
 
 
-afterAll(() => {
-  client.quit()
-})
 
 describe('We can create 10 trades in redis max', () => {
+
+  beforeAll(async () => {
+    client = redis.createClient()
+  })
+
   for (let i = 0; i < 20; i++) {
     test(`Create trade ${i}`, async () => {
       expect(await insertRedis()).toBeTruthy()
@@ -49,4 +51,9 @@ describe('We can create 10 trades in redis max', () => {
       expect(await queryRedis()).toBeLessThan(11)
     });
   }
+
+  afterAll(async () => {
+    await client.quit()
+  })
+
 });
